@@ -140,6 +140,6 @@ def coletar_livros_de_gutenberg(alfabeto=string.ascii_lowercase, livros_por_pagi
 
 # Executa o script de coleta de livros
 if __name__ == '__main__':
-    coletar_livros_de_gutenberg() # (alfabeto='abc', livros_por_pagina=3)
+    coletar_livros_de_gutenberg(alfabeto='abc', livros_por_pagina=3)
 
  
