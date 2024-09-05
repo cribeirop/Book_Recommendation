@@ -16,6 +16,7 @@ Para rodar este projeto, siga as seguintes etapas:
     https://github.com/cribeirop/ProjectGutenberg_Book_Recommendation
     ```
 2. Crie um ambiente virtual na raiz do projeto e o ative:
+
     - Criação do `venv`:
     ```bash
     python3 -m venv venv
@@ -35,17 +36,17 @@ Para a confecção da base de dados, foi feito um web scrapping a fim de se cata
 
 Para configurar a base de dados e verificar a sua construção, rode o arquivo `scraper.py`:
     ```bash
-    python scraper.py
+    python3 scraper.py
     ```
 
 ## Testando a aplicação
 
 1. Feitas as etapas de instalação, teste a aplicação rodando o arquivo `main.py`:
     ```bash
-    python main.py
+    python3 main.py
     ```
 
-2. Acesse a URL http://10.103.0.28, que é a raiz da API de recomendação de livros.
+2. Acesse a URL http://10.103.0.28:34567, que é a raiz da API de recomendação de livros.
 
 ## Exemplos de testes
 
