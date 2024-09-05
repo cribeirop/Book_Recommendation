@@ -34,7 +34,7 @@ Para rodar este projeto, siga as seguintes etapas:
 
 Para a confecção da base de dados, foi feito um web scrapping a fim de se catalogar todos os livros existentes no acervo do Project Gutenberg, ou seja, mais de 70.000 livros. Sua obtenção foi feita através das iniciais dos livros, em ordem alfabética, começando com a [letra A](https://www.gutenberg.org/browse/titles/a). Cada página referente a uma letra possui todos os livros catalogados com a respectiva inicial. Então, rastrea-se as informações de cada um dos livros existentes para cada letra do alfabeto.
 
-Para configurar a base de dados e verificar a sua construção, rode o arquivo `scraper.py`:
+- Para configurar a base de dados e verificar a sua construção, rode o arquivo `scraper.py`:
     ```bash
     python3 scraper.py
     ```
