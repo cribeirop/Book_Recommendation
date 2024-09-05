@@ -49,11 +49,17 @@ Para configurar a base de dados e verificar a sua construção, rode o arquivo `
 
 ## Exemplos de testes
 
-1. Teste que produz 10 resultados: http://localhost:34567/query?query=love
+1. Teste que produz 10 resultados: http://10.103.0.28:34567/query?query=love
 
-2. Teste que produz menos de 10 resultados: http://localhost:34567/query?query=kill
+O teste utiliza a palavra "love", que é uma palavra muito comum, principalmente na literatura romântica.
 
-3. Teste que produz algo não óbvio: http://localhost:34567/query?query=full%20moon
+2. Teste que produz menos de 10 resultados: http://10.103.0.28:34567/query?query=kill
+
+Este teste, por sua vez, com uma palavra não tão usual, livros filtrados através da palavra "kill" não são tão comuns dado o tipo principal de literatura a qual o site costuma se referir, assim como por refletir um gosto que seja muito particular.
+
+3. Teste que produz algo não óbvio: http://10.103.0.28:34567/query?query=full%20moon
+
+Já, o último teste, foi utilizada uma palavra composta "full moon", que é comumente utilizada, porém não sendo bem catalogada em livros do site. Foram observados resultados usando majoritariamente a palavra "moon", apenas. Isso se deve a uma certa ingenuidade do recomendador de se trabalhar com múltiplas palavras, ainda mais se tratando de palavras compostas.
 
 # Uso de contâiner Docker
 
