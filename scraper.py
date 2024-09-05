@@ -3,57 +3,57 @@ from bs4 import BeautifulSoup
 import csv
 import string
 
-def acessar_pagina(url):
+def access_page(url):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }
     try:
-        resposta = requests.get(url, headers=headers)
-        resposta.raise_for_status()
-        return resposta.text
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        return response.text
     except requests.RequestException as e:
-        print(f"Erro ao acessar a página: {e}")
+        print(f"Error accessing the page: {e}")
         return None
 
-def extrair_livros_da_pagina(pagina_url):
-    conteudo_html = acessar_pagina(pagina_url)
-    if conteudo_html:
-        soup = BeautifulSoup(conteudo_html, 'html.parser')
-        livros = []
+def extract_books_from_page(page_url):
+    html_content = access_page(page_url)
+    if html_content:
+        soup = BeautifulSoup(html_content, 'html.parser')
+        books = []
 
-        itens_livro = soup.select('h2 a')
-        for item in itens_livro:
-            titulo = item.get_text(strip=True)
-            url_livro = f"https://www.gutenberg.org{item['href']}"
+        book_items = soup.select('h2 a')
+        for item in book_items:
+            title = item.get_text(strip=True)
+            book_url = f"https://www.gutenberg.org{item['href']}"
             
-            livros.append({
-                'Title': titulo,
-                'URL': url_livro
+            books.append({
+                'Title': title,
+                'URL': book_url
             })
-        return livros
+        return books
     return []
 
-def obter_detalhes_do_livro(url_livro):
-    conteudo_html = acessar_pagina(url_livro)
-    if conteudo_html:
-        soup = BeautifulSoup(conteudo_html, 'html.parser')
-        detalhes = {}
+def get_book_details(book_url):
+    html_content = access_page(book_url)
+    if html_content:
+        soup = BeautifulSoup(html_content, 'html.parser')
+        details = {}
         
-        tabela = soup.select_one('table.bibrec')
-        if tabela:
-            for linha in tabela.find_all('tr'):
-                cabecalho = linha.select_one('th')
-                valor = linha.select_one('td')
-                if cabecalho and valor:
-                    cabecalho_texto = cabecalho.get_text(strip=True)
-                    valor_texto = valor.get_text(strip=True)
-                    detalhes[cabecalho_texto] = valor_texto
+        table = soup.select_one('table.bibrec')
+        if table:
+            for row in table.find_all('tr'):
+                header = row.select_one('th')
+                value = row.select_one('td')
+                if header and value:
+                    header_text = header.get_text(strip=True)
+                    value_text = value.get_text(strip=True)
+                    details[header_text] = value_text
         
-        return detalhes
+        return details
     return None
 
-def salvar_livros_em_csv(livros, arquivo_csv='livros_gutenberg.csv'):
-    campos = ['Title', 
+def save_books_to_csv(books, csv_file='gutenberg_book_deer.csv'):
+    fields = ['Title', 
               'URL', 
               'Author', 
               'Illustrator', 
@@ -71,62 +71,62 @@ def salvar_livros_em_csv(livros, arquivo_csv='livros_gutenberg.csv'):
               'Price']
     
     try:
-        with open(arquivo_csv, mode='w', newline='', encoding='utf-8') as arquivo:
-            escritor_csv = csv.DictWriter(arquivo, fieldnames=campos)
-            escritor_csv.writeheader()
+        with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
+            csv_writer = csv.DictWriter(file, fieldnames=fields)
+            csv_writer.writeheader()
             
-            for livro in livros:
-                livro_filtrado = {campo: livro.get(campo, '') for campo in campos}
-                escritor_csv.writerow(livro_filtrado)
+            for book in books:
+                filtered_book = {field: book.get(field, '') for field in fields}
+                csv_writer.writerow(filtered_book)
                 
-        print(f"Informações dos livros salvas com sucesso em {arquivo_csv}")
+        print(f"Book information successfully saved to {csv_file}")
     except IOError as e:
-        print(f"Erro ao salvar as informações: {e}")
+        print(f"Error saving information: {e}")
 
-def coletar_livros_de_gutenberg(alfabeto=string.ascii_lowercase, livros_por_pagina=None):
-    letras = alfabeto
-    livros_coletados = []
+def collect_books_from_gutenberg(alphabet=string.ascii_lowercase, books_per_page=None):
+    letters = alphabet
+    collected_books = []
     
-    for letra in letras:
-        pagina_url = f"https://www.gutenberg.org/browse/titles/{letra}?sort_order=release_date"
-        print(f"Acessando: {pagina_url}")
+    for letter in letters:
+        page_url = f"https://www.gutenberg.org/browse/titles/{letter}?sort_order=release_date"
+        print(f"Accessing: {page_url}")
 
-        conteudo_html = acessar_pagina(pagina_url)
-        if conteudo_html:
-            soup = BeautifulSoup(conteudo_html, 'html.parser')
-            livros = extrair_livros_da_pagina(pagina_url)
-            ids_livros = set()
-            for livro in livros:
-                livro_id = livro['URL'].split('/')[-1]
-                ids_livros.add(livro_id)
-            total_livros_unicos = len(ids_livros)
+        html_content = access_page(page_url)
+        if html_content:
+            soup = BeautifulSoup(html_content, 'html.parser')
+            books = extract_books_from_page(page_url)
+            book_ids = set()
+            for book in books:
+                book_id = book['URL'].split('/')[-1]
+                book_ids.add(book_id)
+            total_unique_books = len(book_ids)
         else:
-            total_livros_unicos = 0
+            total_unique_books = 0
 
-        ids_livros = set()
-        pagina_url = f"https://www.gutenberg.org/browse/titles/{letra}?sort_order=release_date"
-        print(f"Acessando: {pagina_url}")
-        livros = extrair_livros_da_pagina(pagina_url)
-        for j, livro in enumerate(livros):
-            if livros_por_pagina is not None and j >= livros_por_pagina:
+        book_ids = set()
+        page_url = f"https://www.gutenberg.org/browse/titles/{letter}?sort_order=release_date"
+        print(f"Accessing: {page_url}")
+        books = extract_books_from_page(page_url)
+        for j, book in enumerate(books):
+            if books_per_page is not None and j >= books_per_page:
                 break
 
-            livro_id = livro['URL'].split('/')[-1]
-            if livro_id in ids_livros:
+            book_id = book['URL'].split('/')[-1]
+            if book_id in book_ids:
                 continue  
             
-            ids_livros.add(livro_id) 
+            book_ids.add(book_id) 
 
-            detalhes_livro = obter_detalhes_do_livro(livro['URL'])
-            if detalhes_livro:
-                detalhes_livro['Title'] = livro['Title']
-                detalhes_livro['URL'] = livro['URL']
-                livros_coletados.append(detalhes_livro)
-            print(f'Coleta realizada para livro {j+1} de {total_livros_unicos} livros únicos para a letra {letra} (alguns livros são repetidos, então ocorrem mais coletas do que o número total de livros)')
+            book_details = get_book_details(book['URL'])
+            if book_details:
+                book_details['Title'] = book['Title']
+                book_details['URL'] = book['URL']
+                collected_books.append(book_details)
+            print(f'Collection done for book {j+1} of {total_unique_books} unique books for letter {letter} ')
         
-        print(f"{total_livros_unicos} livros únicos encontrados para a letra {letra}")
+        print(f"{total_unique_books} unique books found for letter {letter}")
 
-    salvar_livros_em_csv(livros_coletados)
+    save_books_to_csv(collected_books)
 
 if __name__ == '__main__':
-    coletar_livros_de_gutenberg() # (alfabeto='abc', livros_por_pagina=3)
+    collect_books_from_gutenberg(alphabet='abc', books_per_page=3)

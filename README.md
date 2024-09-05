@@ -18,17 +18,24 @@ Para rodar este projeto, siga as seguintes etapas:
     ```bash
     python -m venv env
     ```
-    Acesso à pasta ```activate```:
+    - Acesso à pasta `activate`:
     ```bash
     .\env\Scripts\activate
     ```
-3. Instalar os requerimentos:
+ Instalar as bibliotecas necessárias:
     ```bash
     pip install -r requirements.txt
     ```
-4. Entre na pasta `app` e rode o arquivo `scraper.py`:
-    - Entrar na pasta app:
+4. Rodar o arquivo `scraper.py`:
     ```bash
-    cd .\app\
+    python scraper.py
     ```
-    
+
+## Testando a aplicação
+
+Feitas as etapas de instalação 
+
+## Exemplos de testes
+
+1. Teste que produz 10 resultados
+
