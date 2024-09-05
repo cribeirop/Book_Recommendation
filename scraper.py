@@ -129,4 +129,4 @@ def collect_books_from_gutenberg(alphabet=string.ascii_lowercase, books_per_page
     save_books_to_csv(collected_books)
 
 if __name__ == '__main__':
-    collect_books_from_gutenberg(alphabet='abc', books_per_page=3)
+    collect_books_from_gutenberg() # (alphabet='abc', books_per_page=3)
