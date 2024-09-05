@@ -70,7 +70,7 @@ To use the application in a container, follow these steps:
     ```
 2. Run the application:
     ```bash
-    docker run -d -p 9876:8080 gutenberg_project
+    docker run -d -p 34765:8080 gutenberg_project
     ```
 3. Test the application through logs: copy the container ID (result from the previous command) and paste it into the following command:
     ```bash
