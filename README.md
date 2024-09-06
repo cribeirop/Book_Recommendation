@@ -20,7 +20,15 @@ To run this project, follow these steps:
     python3 -m venv venv
     ```
     - Activating the virtual environment:
-    ```source venv/bin/activate``` or ```.\venv\bin\Activate.ps1``` or ```.\env\Scripts\activate```
+    ```bash 
+    source venv/bin/activate
+    ``` or 
+    ```bash
+    .\venv\bin\Activate.ps1
+    ``` or 
+    ```bash
+    .\env\Scripts\activate
+    ```
 3. Install the necessary libraries:
     ```bash
     pip install -r requirements.txt
